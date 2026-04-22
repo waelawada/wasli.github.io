@@ -1,6 +1,437 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Wasli helps you remember to stay in touch—schedules, templates, and a calm Today view for the people who matter." />
+  <meta name="theme-color" content="#0f766e" />
+  <title>Wasli — Stay in touch, on purpose</title>
+  <style>
+    :root {
+      --bg: #faf8f5;
+      --bg-warm: #fff7ed;
+      --ink: #1c1917;
+      --muted: #57534e;
+      --accent: #0d9488;
+      --accent-dark: #0f766e;
+      --card: #ffffff;
+      --border: #e7e5e4;
+      --shadow: 0 12px 40px rgba(28, 25, 23, 0.08);
+      --radius: 16px;
+      --max: 72ch;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 1.0625rem;
+      line-height: 1.65;
+      color: var(--ink);
+      background: radial-gradient(120% 80% at 50% -20%, var(--bg-warm), var(--bg));
+      min-height: 100vh;
+    }
+
+    a {
+      color: var(--accent-dark);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    a:hover {
+      color: var(--accent);
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(12px);
+      background: rgba(250, 248, 245, 0.85);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.85rem 0;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .brand:hover {
+      color: var(--accent-dark);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+      font-size: 0.95rem;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent-dark);
+    }
+
+    .hero {
+      padding: 3.5rem 0 4rem;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 2.85rem);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin: 0 0 1rem;
+      font-weight: 700;
+    }
+
+    .hero p.lead {
+      font-size: 1.2rem;
+      color: var(--muted);
+      max-width: 38rem;
+      margin: 0 auto 1.75rem;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent-dark);
+      background: rgba(13, 148, 136, 0.12);
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 1.25rem;
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.65rem 1.35rem;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      border: 2px solid transparent;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background: linear-gradient(165deg, #14b8a6, var(--accent-dark));
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(13, 148, 136, 0.35);
+    }
+
+    .btn-primary:hover {
+      color: #fff;
+      box-shadow: 0 6px 28px rgba(13, 148, 136, 0.45);
+    }
+
+    .btn-ghost {
+      background: var(--card);
+      color: var(--ink);
+      border-color: var(--border);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent-dark);
+    }
+
+    section {
+      padding: 3rem 0;
+    }
+
+    section:nth-child(even) {
+      background: rgba(255, 255, 255, 0.55);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    h2 {
+      font-size: 1.65rem;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.5rem;
+    }
+
+    .section-intro {
+      color: var(--muted);
+      max-width: var(--max);
+      margin: 0 0 2rem;
+    }
+
+    .grid {
+      display: grid;
+      gap: 1.25rem;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.35rem 1.5rem;
+      box-shadow: var(--shadow);
+    }
+
+    .card h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.1rem;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.98rem;
+    }
+
+    .icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 10px;
+      background: rgba(13, 148, 136, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .steps {
+      counter-reset: step;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      max-width: var(--max);
+    }
+
+    .steps li {
+      position: relative;
+      padding-left: 3rem;
+      margin-bottom: 1.35rem;
+    }
+
+    .steps li::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 2rem;
+      height: 2rem;
+      background: var(--accent-dark);
+      color: #fff;
+      border-radius: 50%;
+      font-weight: 700;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .privacy {
+      max-width: var(--max);
+    }
+
+    .privacy ul {
+      padding-left: 1.25rem;
+      color: var(--muted);
+    }
+
+    footer {
+      padding: 2.5rem 0 3rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    footer p {
+      margin: 0.35rem 0;
+      max-width: 40rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .fine {
+      font-size: 0.8rem;
+      opacity: 0.85;
+      margin-top: 1.25rem !important;
+    }
+  </style>
+</head>
 <body>
-    <h1>Hello World!</h1>
+  <header>
+    <div class="wrap nav">
+      <a class="brand" href="#">Wasli</a>
+      <nav class="nav-links" aria-label="Page">
+        <a href="#features">Features</a>
+        <a href="#share">Share a contact</a>
+        <a href="#privacy">Privacy</a>
+        <a href="#support">Support</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap hero">
+      <span class="badge">For iPhone</span>
+      <h1>Stay in touch—<em>on purpose</em></h1>
+      <p class="lead">
+        Wasli is a calm place to plan who you want to message and when. A <strong>Today</strong> view for what’s due,
+        <strong>schedules</strong> and <strong>templates</strong> so you’re never starting from scratch, and optional
+        reminders so important people don’t slip your mind.
+      </p>
+      <div class="cta-row">
+        <!-- Replace with your real App Store link when the app is live -->
+        <a class="btn btn-primary" href="https://apps.apple.com/app/wasli/id0000000000" rel="noopener">Download on the App Store</a>
+        <a class="btn btn-ghost" href="#features">See what it does</a>
+      </div>
+      <p class="fine" style="margin-top: 1.5rem;">
+        Replace the App Store URL above with your listing. Until then, you can hide this button or link to TestFlight.
+      </p>
+    </div>
+
+    <section id="features" aria-labelledby="features-heading">
+      <div class="wrap">
+        <h2 id="features-heading">Built around real life</h2>
+        <p class="section-intro">
+          Life gets loud. Wasli keeps your intentions visible—without turning relationships into a spreadsheet.
+        </p>
+        <div class="grid">
+          <article class="card">
+            <div class="icon" aria-hidden="true">☀️</div>
+            <h3>Today</h3>
+            <p>See who’s due or overdue at a glance. Open the app and know where to spend your attention next.</p>
+          </article>
+          <article class="card">
+            <div class="icon" aria-hidden="true">📅</div>
+            <h3>Schedules &amp; events</h3>
+            <p>One-off reminders or recurring check-ins—plus support for bigger moments you don’t want to forget.</p>
+          </article>
+          <article class="card">
+            <div class="icon" aria-hidden="true">✉️</div>
+            <h3>Templates</h3>
+            <p>Save message ideas so “reach out” feels lighter when you finally have two minutes between meetings.</p>
+          </article>
+          <article class="card">
+            <div class="icon" aria-hidden="true">🔔</div>
+            <h3>Daily digest</h3>
+            <p>Optional once-a-day nudge so nothing important disappears under notifications from everything else.</p>
+          </article>
+          <article class="card">
+            <div class="icon" aria-hidden="true">☁️</div>
+            <h3>Backups you control</h3>
+            <p>Export JSON via Share, or use iCloud backup when you want an extra safety net—on your terms.</p>
+          </article>
+          <article class="card">
+            <div class="icon" aria-hidden="true">🔒</div>
+            <h3>On-device first</h3>
+            <p>Your schedules and templates live on your phone unless you explicitly use sharing or iCloud backup.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="share" aria-labelledby="share-heading">
+      <div class="wrap">
+        <h2 id="share-heading">Share a contact in seconds</h2>
+        <p class="section-intro">
+          From Contacts (or anywhere you can share a vCard), use the system share sheet to send someone into Wasli.
+          We’ll drop you into a new schedule with their details prefilled—so friction doesn’t become an excuse.
+        </p>
+        <ol class="steps">
+          <li>Open <strong>Contacts</strong>, pick a person, tap <strong>Share</strong>.</li>
+          <li>Choose <strong>Wasli</strong> (you may need to tap <strong>Edit Actions</strong> the first time).</li>
+          <li>If iOS doesn’t switch apps automatically, open Wasli—the handoff still arrives within moments.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="privacy" aria-labelledby="privacy-heading">
+      <div class="wrap privacy">
+        <h2 id="privacy-heading">Privacy</h2>
+        <p class="section-intro">
+          Wasli is designed for people who care about boundaries—yours and theirs. This page is a plain-language summary;
+          your App Store listing should link to a full privacy policy at the same host you trust for the long term.
+        </p>
+        <ul>
+          <li><strong>Contacts:</strong> Used so you can pick who to message and prefill schedules when you share someone in.</li>
+          <li><strong>Notifications:</strong> Used for the optional daily digest (and any reminders you enable in the app).</li>
+          <li><strong>iCloud (optional):</strong> Only if you turn on iCloud backup—then backup files live in your iCloud Drive container.</li>
+          <li><strong>No account required</strong> for core use; data stays on your device unless you export or use iCloud backup.</li>
+        </ul>
+        <p style="margin-top: 1.5rem;">
+          <!-- Create privacy.html in this same docs folder, then point App Store Connect here -->
+          <a href="privacy.html">Read the full privacy policy</a>
+          <span class="fine">(Add <code>privacy.html</code> next to this file, or change this link to your real policy URL.)</span>
+        </p>
+      </div>
+    </section>
+
+    <section id="support" aria-labelledby="support-heading">
+      <div class="wrap" style="text-align: center; max-width: 36rem; margin: 0 auto;">
+        <h2 id="support-heading">Support &amp; feedback</h2>
+        <p class="section-intro" style="margin-left: auto; margin-right: auto;">
+          Found a bug, have an idea, or need help? Replace the address below with the email you want to show on the store.
+        </p>
+        <a class="btn btn-primary" href="mailto:you@example.com?subject=Wasli%20support">Email support</a>
+        <p class="fine">Edit the <code>mailto:</code> link in <code>index.html</code> before publishing.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p><strong>Wasli</strong> — stay in touch, on purpose.</p>
+      <p class="fine">
+        This site is a template for GitHub Pages. Enable Pages in your repo:
+        <strong>Settings → Pages → Build and deployment → Deploy from branch → /docs</strong> on <code>main</code>,
+        then use <code>https://&lt;username&gt;.github.io/&lt;repo&gt;/</code> as your support URL (or a custom domain).
+      </p>
+    </div>
+  </footer>
 </body>
 </html>
